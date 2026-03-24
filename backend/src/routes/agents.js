@@ -1,9 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 const { execSync } = require('child_process');
+const { STATE_FILE, SCRIPTS_DIR } = require('../paths');
 const router = express.Router();
-
-const STATE_FILE = '/home/claude/shared/state.json';
 
 // GET /api/agents — 전체 에이전트 상태
 router.get('/', (req, res) => {
@@ -45,7 +44,7 @@ router.post('/:name/command', (req, res) => {
   if (!command) return res.status(400).json({ error: 'command is required' });
 
   try {
-    execSync(`/home/claude/scripts/send-to-agent.sh ${name} "${command.replace(/"/g, '\\"')}"`, {
+    execSync(`${SCRIPTS_DIR}/send-to-agent.sh ${name} "${command.replace(/"/g, '\\"')}"`, {
       timeout: 5000,
     });
     res.json({ ok: true, agent: name, command });

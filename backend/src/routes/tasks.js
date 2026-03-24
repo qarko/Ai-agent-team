@@ -1,9 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 const { execSync } = require('child_process');
+const { TASKS_FILE, SCRIPTS_DIR } = require('../paths');
 const router = express.Router();
-
-const TASKS_FILE = '/home/claude/shared/tasks.json';
 
 // GET /api/tasks — 전체 작업 목록
 router.get('/', (req, res) => {
@@ -34,7 +33,7 @@ router.post('/', (req, res) => {
 
   try {
     execSync(
-      `/home/claude/scripts/task-add.sh "${title}" "${assigned_to}" "${priority || 'medium'}" "${description || ''}"`,
+      `${SCRIPTS_DIR}/task-add.sh "${title}" "${assigned_to}" "${priority || 'medium'}" "${description || ''}"`,
       { timeout: 5000 }
     );
     const data = JSON.parse(fs.readFileSync(TASKS_FILE, 'utf8'));
@@ -51,7 +50,7 @@ router.patch('/:id', (req, res) => {
   if (!status) return res.status(400).json({ error: 'status is required' });
 
   try {
-    execSync(`/home/claude/scripts/task-update.sh ${req.params.id} ${status}`, {
+    execSync(`${SCRIPTS_DIR}/task-update.sh ${req.params.id} ${status}`, {
       timeout: 5000,
     });
     res.json({ ok: true, task_id: req.params.id, status });

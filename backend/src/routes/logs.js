@@ -1,9 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { LOGS_DIR } = require('../paths');
 const router = express.Router();
-
-const LOGS_DIR = '/home/claude/shared/logs';
 
 // GET /api/logs/:agent — 에이전트 로그 조회
 router.get('/:agent', (req, res) => {

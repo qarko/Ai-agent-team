@@ -23,6 +23,7 @@ RUN chmod +x scripts/*.sh
 # Install jq for scripts
 RUN apk add --no-cache jq bash tmux
 
+ENV BASE_DIR=/app
 EXPOSE 3001
 
 CMD ["node", "backend/src/index.js"]
