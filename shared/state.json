@@ -1,0 +1,46 @@
+{
+  "agents": {
+    "manager": {
+      "status": "stopped",
+      "tmux_session": "agent-manager",
+      "model": "claude-sonnet-4-6",
+      "last_updated": null,
+      "current_task": null
+    },
+    "planner": {
+      "status": "stopped",
+      "tmux_session": "agent-planner",
+      "model": "claude-sonnet-4-6",
+      "last_updated": null,
+      "current_task": null
+    },
+    "backend": {
+      "status": "stopped",
+      "tmux_session": "agent-backend",
+      "model": "claude-sonnet-4-6",
+      "last_updated": null,
+      "current_task": null
+    },
+    "frontend": {
+      "status": "stopped",
+      "tmux_session": "agent-frontend",
+      "model": "claude-sonnet-4-6",
+      "last_updated": null,
+      "current_task": null
+    },
+    "reviewer": {
+      "status": "stopped",
+      "tmux_session": "agent-reviewer",
+      "model": "claude-opus-4-6",
+      "last_updated": null,
+      "current_task": null
+    },
+    "tester": {
+      "status": "stopped",
+      "tmux_session": "agent-tester",
+      "model": "claude-haiku-4-5",
+      "last_updated": null,
+      "current_task": null
+    }
+  }
+}

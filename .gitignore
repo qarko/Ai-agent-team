@@ -1,0 +1,26 @@
+node_modules/
+dist/
+.env
+*.log
+
+# System/tool files
+.bash_history
+.bash_logout
+.bashrc
+.profile
+.bun/
+.cache/
+.claude/
+.config/
+.local/
+.npm/
+.nvm/
+.cargo/
+.wget-hsts
+.lesshst
+
+# Other projects in home
+claudeclaw/
+
+# Logs
+shared/logs/*.log
