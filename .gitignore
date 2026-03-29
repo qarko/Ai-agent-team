@@ -24,3 +24,18 @@ claudeclaw/
 
 # Logs
 shared/logs/*.log
+.gstack/
+
+# Sub-projects (separate repos)
+auto-improver/
+cleaning-bot/
+coin-bot/
+
+# System files
+.pki/
+.ssh/
+.railway/
+.claude.json
+.gitconfig
+.omc/
+Documents/
