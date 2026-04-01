@@ -40,18 +40,18 @@ export default function ChatInput({ target, onTargetChange, agents }) {
   return (
     <div
       className="flex-shrink-0 border-t px-3 sm:px-4 py-3 flex items-end gap-2 sticky bottom-0 z-10"
-      style={{ background: '#1E293B', borderColor: '#334155' }}
+      style={{ background: 'var(--bg-card)', borderColor: 'var(--border-subtle)' }}
     >
-      {/* 수신 에이전트 선택 */}
+      {/* Agent selector */}
       <select
         value={target}
         onChange={e => onTargetChange(e.target.value)}
         aria-label="메시지 수신 에이전트"
-        className="text-xs rounded-lg px-2 py-2 border outline-none flex-shrink-0"
+        className="text-xs rounded-xl px-2.5 py-2 border outline-none flex-shrink-0"
         style={{
-          background: '#0F172A',
-          borderColor: '#334155',
-          color: meta?.color ?? '#94A3B8',
+          background: 'var(--bg-inset)',
+          borderColor: 'var(--border-subtle)',
+          color: meta?.color ?? 'var(--text-secondary)',
           minHeight: 44,
         }}
       >
@@ -62,7 +62,7 @@ export default function ChatInput({ target, onTargetChange, agents }) {
         ))}
       </select>
 
-      {/* 입력창 */}
+      {/* Input */}
       <input
         type="text"
         value={text}
@@ -71,26 +71,29 @@ export default function ChatInput({ target, onTargetChange, agents }) {
         placeholder={`${target}에게 메시지...`}
         aria-label={`${target}에게 메시지 입력`}
         maxLength={500}
-        className="flex-1 text-sm rounded-lg px-3 py-2 border outline-none min-w-0"
+        className="flex-1 text-sm rounded-xl px-3.5 py-2 border outline-none min-w-0 transition-all"
         style={{
-          background: '#0F172A',
-          borderColor: '#334155',
-          color: '#F1F5F9',
+          background: 'var(--bg-inset)',
+          borderColor: 'var(--border-subtle)',
+          color: 'var(--text-primary)',
           minHeight: 44,
         }}
+        onFocus={e => { e.currentTarget.style.borderColor = '#6C8CFF44' }}
+        onBlur={e => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
       />
 
-      {/* 전송 버튼 */}
+      {/* Send button */}
       <button
         onClick={handleSend}
         disabled={!text.trim() || sending}
         aria-label={sending ? '전송 중' : `${target}에게 전송`}
-        className="text-sm px-4 py-2 rounded-lg font-medium transition-all flex-shrink-0"
+        className="text-sm px-4 py-2 rounded-xl font-medium transition-all flex-shrink-0"
         style={{
-          background: text.trim() ? '#8B5CF6' : '#334155',
-          color: text.trim() ? '#fff' : '#64748B',
+          background: text.trim() ? 'var(--accent)' : 'var(--bg-elevated)',
+          color: text.trim() ? '#fff' : 'var(--text-tertiary)',
           opacity: sending ? 0.5 : 1,
           minHeight: 44,
+          boxShadow: text.trim() ? '0 2px 8px #6C8CFF33' : 'none',
         }}
       >
         {sending ? '...' : '전송'}

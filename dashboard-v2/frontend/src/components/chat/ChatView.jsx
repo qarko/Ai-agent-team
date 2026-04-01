@@ -20,22 +20,22 @@ export default function ChatView({ agentStatus = {}, unread = {}, onClearUnread,
 
   return (
     <div className="flex flex-col overflow-x-hidden" style={{ height: 'calc(100vh - 60px)' }}>
-      {/* 상단 채널 필터 탭 */}
+      {/* Channel filter tabs */}
       <ChannelList active={channel} onChange={handleChannelChange} unread={unread} />
 
-      {/* 채널 헤더 */}
-      <div className="px-4 sm:px-6 py-2 border-b flex items-center gap-2" style={{ borderColor: '#1E293B' }}>
-        <span className="text-sm font-semibold" style={{ color: '#F1F5F9' }}>
+      {/* Channel header */}
+      <div className="px-4 sm:px-6 py-2 border-b flex items-center gap-2" style={{ borderColor: 'var(--border-subtle)' }}>
+        <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
           {channel === 'all' ? '전체' : channel}
         </span>
         {error && (
-          <span className="text-xs px-2 py-0.5 rounded-lg" style={{ background: '#EF444422', color: '#F87171' }}>
+          <span className="text-xs px-2 py-0.5 rounded-lg" style={{ background: '#FF5C5C18', color: 'var(--red)' }}>
             오류
           </span>
         )}
       </div>
 
-      {/* 메시지 스트림 */}
+      {/* Message stream */}
       <MessageStream
         messages={messages}
         channel={channel}
@@ -44,7 +44,7 @@ export default function ChatView({ agentStatus = {}, unread = {}, onClearUnread,
         error={error}
       />
 
-      {/* 입력창 */}
+      {/* Input */}
       <ChatInput
         target={sendTarget}
         onTargetChange={setSendTarget}

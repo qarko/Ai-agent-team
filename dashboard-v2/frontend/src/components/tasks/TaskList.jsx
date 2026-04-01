@@ -2,11 +2,11 @@ import { useState } from 'react'
 import TaskCard from './TaskCard'
 
 const STATUS_OPTIONS = [
-  { value: 'all',         label: '전체',   color: '#8B5CF6' },
-  { value: 'pending',     label: '대기중', color: '#94A3B8' },
-  { value: 'in_progress', label: '진행중', color: '#8B5CF6' },
-  { value: 'completed',   label: '완료',   color: '#10B981' },
-  { value: 'failed',      label: '실패',   color: '#F87171' },
+  { value: 'all',         label: '전체',   color: '#6C8CFF' },
+  { value: 'pending',     label: '대기중', color: '#9A9AA8' },
+  { value: 'in_progress', label: '진행중', color: '#6C8CFF' },
+  { value: 'completed',   label: '완료',   color: '#00D68F' },
+  { value: 'failed',      label: '실패',   color: '#FF5C5C' },
 ]
 
 export default function TaskList({ omcTasks, omcTeams }) {
@@ -26,23 +26,23 @@ export default function TaskList({ omcTasks, omcTeams }) {
 
   return (
     <div className="p-4 sm:p-6 max-w-5xl mx-auto">
-      <h2 className="text-base font-bold mb-4" style={{ color: '#F1F5F9' }}>
+      <h2 className="text-base font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
         태스크 ({filtered.length})
       </h2>
 
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-2 mb-4">
+      <div className="flex flex-wrap items-center gap-2 mb-5">
         {STATUS_OPTIONS.map(opt => {
           const isActive = statusFilter === opt.value
           return (
             <button
               key={opt.value}
               onClick={() => setStatusFilter(opt.value)}
-              className="px-3 rounded-xl text-sm font-medium transition-all"
+              className="px-3.5 rounded-xl text-sm font-medium transition-all"
               style={{
-                background:  isActive ? `${opt.color}22` : '#1E293B',
-                color:       isActive ? opt.color : '#64748B',
-                border:      `1px solid ${isActive ? opt.color + '55' : '#334155'}`,
+                background:  isActive ? `${opt.color}18` : 'var(--bg-card)',
+                color:       isActive ? opt.color : 'var(--text-tertiary)',
+                border:      `1px solid ${isActive ? opt.color + '44' : 'var(--border-subtle)'}`,
                 minHeight:   40,
                 paddingTop:  '7px',
                 paddingBottom: '7px',
@@ -61,9 +61,9 @@ export default function TaskList({ omcTasks, omcTeams }) {
             aria-label="팀 필터"
             className="ml-auto rounded-xl px-3 text-sm outline-none"
             style={{
-              background: '#1E293B',
-              color:      '#94A3B8',
-              border:     '1px solid #334155',
+              background: 'var(--bg-card)',
+              color:      'var(--text-secondary)',
+              border:     '1px solid var(--border-subtle)',
               minHeight:  40,
             }}
           >
@@ -80,7 +80,8 @@ export default function TaskList({ omcTasks, omcTeams }) {
       {/* Task list */}
       <div className="space-y-3">
         {filtered.length === 0 ? (
-          <div className="text-sm text-center py-12" style={{ color: '#64748B' }}>
+          <div className="text-sm text-center py-16 flex flex-col items-center gap-3" style={{ color: 'var(--text-tertiary)' }}>
+            <span className="text-2xl opacity-40">📋</span>
             조건에 맞는 태스크가 없습니다
           </div>
         ) : (

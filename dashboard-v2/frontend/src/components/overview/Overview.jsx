@@ -15,26 +15,27 @@ export default function Overview({ agents, chatMessages, onGotoChat, omcTeams, o
   })
 
   return (
-    <div className="p-3 sm:p-5 space-y-6 max-w-7xl mx-auto">
+    <div className="p-3 sm:p-6 space-y-6 max-w-7xl mx-auto">
 
-      {/* ── 통계 카드 4개 ─────────────────────────────────────────── */}
+      {/* Stat Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-        <StatCard label="활성 팀"       value={activeTeams.length}       color="#8B5CF6" icon="👥" />
-        <StatCard label="진행중 태스크" value={inProgressTasks.length}   color="#F59E0B" icon="📋" />
-        <StatCard label="완료 태스크"   value={completedTasks.length}    color="#10B981" icon="✓"  />
+        <StatCard label="활성 팀"       value={activeTeams.length}       color="#6C8CFF" icon="👥" />
+        <StatCard label="진행중 태스크" value={inProgressTasks.length}   color="#FFB545" icon="📋" />
+        <StatCard label="완료 태스크"   value={completedTasks.length}    color="#00D68F" icon="✓"  />
         <StatCard label="오늘 메시지"   value={todayMessages.length}     color="#EC4899" icon="💬" />
       </div>
 
-      {/* ── OMC 팀 ─────────────────────────────────────────────── */}
+      {/* OMC Teams */}
       <section>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-bold" style={{ color: '#94A3B8', letterSpacing: '0.05em' }}>
+          <h2 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2" style={{ color: 'var(--text-tertiary)' }}>
+            <span className="w-1 h-3.5 rounded-full" style={{ background: 'var(--accent)' }} />
             OMC 팀
           </h2>
           {omcTeams && omcTeams.length > 0 && (
             <span
-              className="text-xs px-2 py-1 rounded-full font-semibold"
-              style={{ background: '#8B5CF622', color: '#A78BFA' }}
+              className="text-xs px-2.5 py-1 rounded-lg font-semibold"
+              style={{ background: 'var(--accent-muted)', color: 'var(--accent)' }}
             >
               {omcTeams.length}개 팀
             </span>
@@ -42,10 +43,10 @@ export default function Overview({ agents, chatMessages, onGotoChat, omcTeams, o
         </div>
         {!omcTeams || omcTeams.length === 0 ? (
           <div
-            className="rounded-xl border text-sm text-center py-8"
-            style={{ background: '#1E293B', borderColor: '#334155', color: '#475569' }}
+            className="card text-sm text-center py-10 flex flex-col items-center gap-2"
           >
-            활성 OMC 팀 없음
+            <span className="text-2xl opacity-30">👥</span>
+            <span style={{ color: 'var(--text-tertiary)' }}>활성 OMC 팀 없음</span>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -56,13 +57,14 @@ export default function Overview({ agents, chatMessages, onGotoChat, omcTeams, o
         )}
       </section>
 
-      {/* ── 에이전트 현황 — 컴팩트 그리드 ──────── */}
+      {/* Agent Status - Compact Grid */}
       <section>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-bold" style={{ color: '#94A3B8', letterSpacing: '0.05em' }}>
+          <h2 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2" style={{ color: 'var(--text-tertiary)' }}>
+            <span className="w-1 h-3.5 rounded-full" style={{ background: 'var(--green)' }} />
             에이전트 현황
           </h2>
-          <span className="text-xs" style={{ color: '#475569' }}>
+          <span className="text-xs font-medium" style={{ color: 'var(--text-tertiary)' }}>
             {workingCount > 0 ? `${workingCount}명 작업중` : '모두 대기중'}
           </span>
         </div>
@@ -71,29 +73,29 @@ export default function Overview({ agents, chatMessages, onGotoChat, omcTeams, o
           {agents.map(agent => {
             const meta = AGENT_META[agent.id]
             const isOnline = agent.status !== 'offline'
+            const isWorking = agent.status === 'working'
             return (
               <div
                 key={agent.id}
-                className="rounded-xl border p-3 text-center"
+                className="card p-3.5 text-center transition-all"
                 style={{
-                  background: '#1E293B',
-                  borderColor: isOnline ? '#8B5CF633' : '#334155',
+                  borderColor: isWorking ? `${meta?.color}44` : isOnline ? 'var(--border-subtle)' : 'var(--border-subtle)',
                 }}
               >
-                <div className="text-2xl mb-1">{meta?.emoji || '🤖'}</div>
-                <div className="text-xs font-semibold truncate" style={{ color: '#E2E8F0' }}>
+                <div className="text-2xl mb-1.5">{meta?.emoji || '🤖'}</div>
+                <div className="text-xs font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
                   {agent.id}
                 </div>
-                <div className="flex items-center justify-center gap-1 mt-1">
+                <div className="flex items-center justify-center gap-1.5 mt-1.5">
                   <span
                     className="w-1.5 h-1.5 rounded-full inline-block"
                     style={{
-                      background: isOnline ? '#10B981' : '#475569',
-                      animation: agent.status === 'working' ? 'agentPulse 1.5s infinite' : 'none',
+                      background: isOnline ? 'var(--green)' : 'var(--text-tertiary)',
+                      animation: isWorking ? 'agentPulse 1.5s infinite' : 'none',
                     }}
                   />
-                  <span className="text-xs" style={{ color: isOnline ? '#10B981' : '#475569' }}>
-                    {agent.status === 'working' ? '작업중' : isOnline ? '온라인' : '오프라인'}
+                  <span className="text-xs font-medium" style={{ color: isOnline ? 'var(--green)' : 'var(--text-tertiary)' }}>
+                    {isWorking ? '작업중' : isOnline ? '온라인' : '오프라인'}
                   </span>
                 </div>
               </div>
@@ -102,74 +104,73 @@ export default function Overview({ agents, chatMessages, onGotoChat, omcTeams, o
         </div>
       </section>
 
-      {/* ── 최근 채팅 + 완료 태스크 미리보기 ─────────────────────────────── */}
+      {/* Recent Chat + Completed Tasks */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-        {/* 최근 채팅 */}
+        {/* Recent Chat */}
         <section>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-bold" style={{ color: '#94A3B8', letterSpacing: '0.05em' }}>
+            <h2 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2" style={{ color: 'var(--text-tertiary)' }}>
+              <span className="w-1 h-3.5 rounded-full" style={{ background: '#EC4899' }} />
               최근 채팅
             </h2>
             <button
               onClick={onGotoChat}
               aria-label="채팅 전체 보기"
-              className="text-xs px-3 py-1.5 rounded-lg transition-colors"
-              style={{ color: '#8B5CF6', background: '#8B5CF611', minHeight: 44 }}
+              className="text-xs px-3 py-1.5 rounded-lg transition-all font-medium"
+              style={{ color: 'var(--accent)', background: 'var(--accent-muted)', minHeight: 36 }}
             >
               전체 보기 →
             </button>
           </div>
-          <div
-            className="rounded-xl border"
-            style={{ background: '#1E293B', borderColor: '#334155' }}
-          >
+          <div className="card overflow-hidden">
             <RecentChat messages={chatMessages} onGotoChat={onGotoChat} />
           </div>
         </section>
 
-        {/* 완료 태스크 미리보기 */}
+        {/* Completed Tasks Preview */}
         <section>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-bold" style={{ color: '#94A3B8', letterSpacing: '0.05em' }}>
+            <h2 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2" style={{ color: 'var(--text-tertiary)' }}>
+              <span className="w-1 h-3.5 rounded-full" style={{ background: 'var(--green)' }} />
               최근 완료 태스크
             </h2>
             <span
-              className="text-xs px-2 py-1 rounded-full font-semibold"
+              className="text-xs px-2.5 py-1 rounded-lg font-semibold"
               style={{
-                background: completedTasks.length > 0 ? '#10B98122' : '#33415533',
-                color: completedTasks.length > 0 ? '#34D399' : '#475569',
+                background: completedTasks.length > 0 ? 'var(--green-muted)' : 'var(--bg-card)',
+                color: completedTasks.length > 0 ? 'var(--green)' : 'var(--text-tertiary)',
               }}
             >
               {completedTasks.length}건
             </span>
           </div>
-          <div
-            className="rounded-xl border divide-y"
-            style={{ background: '#1E293B', borderColor: '#334155', divideColor: '#1E293B' }}
-          >
+          <div className="card overflow-hidden divide-y" style={{ borderColor: 'var(--border-subtle)' }}>
             {completedTasks.length === 0 ? (
-              <div className="text-sm text-center py-10" style={{ color: '#475569' }}>
-                <div className="text-2xl mb-2">✓</div>
+              <div className="text-sm text-center py-12 flex flex-col items-center gap-2" style={{ color: 'var(--text-tertiary)' }}>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--bg-inset)' }}>
+                  <span className="text-lg opacity-50">✓</span>
+                </div>
                 완료된 태스크 없음
               </div>
             ) : (
               completedTasks.slice(0, 5).map(t => (
                 <div
                   key={t.id}
-                  className="flex items-center gap-3 px-4 py-3"
+                  className="flex items-center gap-3 px-4 py-3 transition-colors"
+                  style={{ borderColor: 'var(--border-subtle)' }}
                 >
                   <span
-                    className="w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0"
-                    style={{ background: '#10B98122', color: '#34D399' }}
+                    className="w-6 h-6 rounded-lg flex items-center justify-center text-xs flex-shrink-0"
+                    style={{ background: 'var(--green-muted)', color: 'var(--green)' }}
                   >
                     ✓
                   </span>
-                  <span className="flex-1 truncate text-sm" style={{ color: '#CBD5E1' }}>
+                  <span className="flex-1 truncate text-sm" style={{ color: 'var(--text-secondary)' }}>
                     {t.title}
                   </span>
                   {t.team_name && (
-                    <span className="text-xs flex-shrink-0" style={{ color: '#A78BFA' }}>
+                    <span className="text-xs flex-shrink-0 px-2 py-0.5 rounded-md" style={{ color: 'var(--accent)', background: 'var(--accent-muted)' }}>
                       {t.team_name}
                     </span>
                   )}

@@ -21,7 +21,7 @@ export default function MessageStream({ messages, channel, agentStatus = {}, loa
 
   if (loading) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center gap-3" style={{ color: '#64748B' }}>
+      <div className="flex-1 flex flex-col items-center justify-center gap-3" style={{ color: 'var(--text-tertiary)' }}>
         <div className="spinner" />
         <span className="text-sm">메시지 로딩 중...</span>
       </div>
@@ -32,8 +32,8 @@ export default function MessageStream({ messages, channel, agentStatus = {}, loa
     return (
       <div className="flex-1 flex flex-col items-center justify-center gap-3 px-6">
         <div className="text-2xl">⚠️</div>
-        <div className="text-sm font-medium" style={{ color: '#F87171' }}>채팅 연결 오류</div>
-        <div className="text-xs font-mono px-4 py-2 rounded-xl text-center" style={{ background: '#1E293B', color: '#94A3B8' }}>
+        <div className="text-sm font-medium" style={{ color: 'var(--red)' }}>채팅 연결 오류</div>
+        <div className="text-xs font-mono px-4 py-2 rounded-xl text-center" style={{ background: 'var(--bg-card)', color: 'var(--text-secondary)' }}>
           {error}
         </div>
       </div>
@@ -43,12 +43,12 @@ export default function MessageStream({ messages, channel, agentStatus = {}, loa
   if (messages.length === 0) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6 text-center">
-        <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: '#1E293B' }}>
-          <span className="text-xl" style={{ color: '#475569' }}>&#x2709;</span>
+        <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: 'var(--bg-card)' }}>
+          <span className="text-2xl" style={{ opacity: 0.4 }}>&#x2709;</span>
         </div>
         <div>
-          <p className="text-sm font-medium mb-1" style={{ color: '#64748B' }}>대화가 비어 있습니다</p>
-          <p className="text-xs leading-relaxed" style={{ color: '#475569' }}>
+          <p className="text-sm font-medium mb-1" style={{ color: 'var(--text-tertiary)' }}>대화가 비어 있습니다</p>
+          <p className="text-xs leading-relaxed" style={{ color: 'var(--text-tertiary)', opacity: 0.7 }}>
             에이전트 간 대화 내용이 이곳에 표시됩니다.<br />
             아래 입력창에서 에이전트에게 직접 명령을 보내보세요.
           </p>
@@ -88,8 +88,8 @@ export default function MessageStream({ messages, channel, agentStatus = {}, loa
         <button
           onClick={() => { setAutoScroll(true); bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }}
           aria-label="최신 메시지로 스크롤"
-          className="fixed bottom-6 right-6 px-4 py-2.5 rounded-full text-sm font-medium shadow-xl"
-          style={{ background: '#8B5CF6', color: '#fff', minHeight: 44 }}
+          className="fixed bottom-6 right-6 px-4 py-2.5 rounded-full text-sm font-medium shadow-xl transition-all"
+          style={{ background: 'var(--accent)', color: '#fff', minHeight: 44, boxShadow: '0 4px 16px #6C8CFF44' }}
         >
           최신 메시지로 ↓
         </button>

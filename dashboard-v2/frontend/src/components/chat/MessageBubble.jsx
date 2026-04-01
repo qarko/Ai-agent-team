@@ -18,7 +18,6 @@ export default function MessageBubble({ message, isSent, agentStatus = {} }) {
         size="sm"
       />
 
-      {/* 모바일: max 95%, 데스크톱: max 72% */}
       <div
         style={{
           maxWidth: 'min(95%, 520px)',
@@ -28,14 +27,14 @@ export default function MessageBubble({ message, isSent, agentStatus = {} }) {
           alignItems: isSent ? 'flex-end' : 'flex-start',
         }}
       >
-        {/* 발신자 + 시간 + 수신자 */}
-        <div className="flex flex-wrap items-center gap-1.5 text-xs" style={{ color: '#64748B' }}>
+        {/* Sender + time + receiver */}
+        <div className="flex flex-wrap items-center gap-1.5 text-xs" style={{ color: 'var(--text-tertiary)' }}>
           {!isSent && (
             <span style={{ color: meta?.color, fontWeight: 600 }}>
               {meta?.emoji} {message.from}
             </span>
           )}
-          <span>{time}</span>
+          <span className="font-mono tabular-nums">{time}</span>
           {message.to && (
             <span>→ {AGENT_META[message.to]?.emoji} {message.to}</span>
           )}
@@ -46,16 +45,17 @@ export default function MessageBubble({ message, isSent, agentStatus = {} }) {
           )}
         </div>
 
-        {/* 버블 */}
+        {/* Bubble */}
         <div
-          className="px-3 py-2.5 text-sm"
+          className="px-3.5 py-2.5 text-sm"
           style={{
-            background: isSent ? (meta?.color ?? '#8B5CF6') : '#334155',
-            color: '#F1F5F9',
+            background: isSent ? (meta?.color ?? 'var(--accent)') : 'var(--bg-elevated)',
+            color: isSent ? '#fff' : 'var(--text-primary)',
             borderRadius: isSent ? '16px 4px 16px 16px' : '4px 16px 16px 16px',
             wordBreak: 'break-word',
             whiteSpace: 'pre-wrap',
             lineHeight: 1.6,
+            border: isSent ? 'none' : '1px solid var(--border-subtle)',
           }}
         >
           {message.message}

@@ -41,32 +41,32 @@ export default function CommandModal({ agent, status, onClose, onToast }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: 'rgba(0,0,0,0.6)' }}
+      style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="w-full max-w-[480px] mx-4 sm:mx-0 rounded-xl border"
-        style={{ background: '#1E293B', borderColor: '#334155' }}
+        className="w-full max-w-[480px] mx-4 sm:mx-0 card card-glow"
+        style={{ border: '1px solid var(--border-default)' }}
       >
-        <div className="flex items-center gap-3 px-5 py-4 border-b" style={{ borderColor: '#334155' }}>
+        <div className="flex items-center gap-3 px-5 py-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
           <AgentAvatar name={agent} status={status} size="sm" />
-          <span id="modal-title" className="font-semibold" style={{ color: '#F1F5F9' }}>
+          <span id="modal-title" className="font-semibold" style={{ color: 'var(--text-primary)' }}>
             <span aria-hidden="true">{meta?.emoji}</span> {agent} 에게 명령 전송
           </span>
           <button
             onClick={onClose}
             aria-label="모달 닫기"
-            className="ml-auto text-lg leading-none min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg"
-            style={{ color: '#94A3B8' }}
+            className="ml-auto text-lg leading-none min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg transition-colors"
+            style={{ color: 'var(--text-tertiary)' }}
           >
             ✕
           </button>
         </div>
 
-        <div className="p-5 space-y-3">
+        <div className="p-5 space-y-4">
           <textarea
             autoFocus
             value={text}
@@ -75,23 +75,25 @@ export default function CommandModal({ agent, status, onClose, onToast }) {
             maxLength={MAX_LENGTH}
             rows={4}
             placeholder="명령을 입력하세요... (Ctrl+Enter 전송)"
-            className="w-full rounded-lg px-3 py-2 text-sm resize-none outline-none"
+            className="w-full rounded-xl px-4 py-3 text-sm resize-none outline-none transition-all"
             style={{
-              background: '#334155',
-              color: '#F1F5F9',
-              border: '1px solid #475569',
+              background: 'var(--bg-inset)',
+              color: 'var(--text-primary)',
+              border: '1px solid var(--border-default)',
             }}
+            onFocus={e => { e.currentTarget.style.borderColor = '#6C8CFF55' }}
+            onBlur={e => { e.currentTarget.style.borderColor = 'var(--border-default)' }}
           />
           <div className="flex items-center justify-between">
-            <span className="text-xs" style={{ color: '#64748B' }}>
+            <span className="text-xs font-mono tabular-nums" style={{ color: 'var(--text-tertiary)' }}>
               {text.length}/{MAX_LENGTH}
             </span>
             <div className="flex gap-2">
               <button
                 onClick={onClose}
                 aria-label="명령 전송 취소"
-                className="px-4 py-2.5 rounded-lg text-sm min-h-[44px]"
-                style={{ background: '#334155', color: '#94A3B8' }}
+                className="px-4 py-2.5 rounded-xl text-sm min-h-[44px] transition-colors"
+                style={{ background: 'var(--bg-elevated)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}
               >
                 취소
               </button>
@@ -99,11 +101,12 @@ export default function CommandModal({ agent, status, onClose, onToast }) {
                 onClick={handleSend}
                 disabled={!text.trim() || sending}
                 aria-label={sending ? '전송 중' : '명령 전송'}
-                className="px-4 py-2.5 rounded-lg text-sm font-medium min-h-[44px]"
+                className="px-5 py-2.5 rounded-xl text-sm font-medium min-h-[44px] transition-all"
                 style={{
-                  background: text.trim() && !sending ? '#8B5CF6' : '#334155',
-                  color: text.trim() && !sending ? '#fff' : '#475569',
+                  background: text.trim() && !sending ? 'var(--accent)' : 'var(--bg-elevated)',
+                  color: text.trim() && !sending ? '#fff' : 'var(--text-tertiary)',
                   cursor: text.trim() && !sending ? 'pointer' : 'not-allowed',
+                  boxShadow: text.trim() && !sending ? '0 2px 12px #6C8CFF44' : 'none',
                 }}
               >
                 {sending ? '전송 중...' : '전송'}

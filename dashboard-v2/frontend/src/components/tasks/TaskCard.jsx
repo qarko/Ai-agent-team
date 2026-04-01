@@ -2,16 +2,16 @@ import { useState } from 'react'
 import { AGENT_META } from '../../constants/agents'
 
 const PRIORITY_STYLE = {
-  high:   { label: '높음', icon: '🔴', color: '#EF4444' },
-  medium: { label: '중간', icon: '🟡', color: '#F59E0B' },
-  low:    { label: '낮음', icon: '🟢', color: '#10B981' },
+  high:   { label: '높음', color: '#FF5C5C' },
+  medium: { label: '중간', color: '#FFB545' },
+  low:    { label: '낮음', color: '#00D68F' },
 }
 
 const STATUS_STYLE = {
-  pending:     { label: '대기중',  bg: '#1E293B',   color: '#94A3B8', border: '#334155',   pulse: false },
-  in_progress: { label: '진행중',  bg: '#8B5CF611', color: '#A78BFA', border: '#8B5CF644', pulse: true },
-  completed:   { label: '완료',    bg: '#10B98111', color: '#34D399', border: '#10B98144', pulse: false },
-  failed:      { label: '실패',    bg: '#EF444411', color: '#F87171', border: '#EF444444', pulse: false },
+  pending:     { label: '대기중',  bg: 'var(--bg-card)',   color: 'var(--text-secondary)', border: 'var(--border-subtle)',   pulse: false },
+  in_progress: { label: '진행중',  bg: '#6C8CFF0C', color: '#6C8CFF', border: '#6C8CFF33', pulse: true },
+  completed:   { label: '완료',    bg: '#00D68F0C', color: '#00D68F', border: '#00D68F33', pulse: false },
+  failed:      { label: '실패',    bg: '#FF5C5C0C', color: '#FF5C5C', border: '#FF5C5C33', pulse: false },
 }
 
 export default function TaskCard({ task }) {
@@ -27,11 +27,10 @@ export default function TaskCard({ task }) {
       tabIndex={0}
       aria-expanded={expanded}
       aria-label={`작업 #${task.id}: ${task.title}`}
-      className="rounded-xl border cursor-pointer transition-all"
+      className="card cursor-pointer transition-all"
       style={{
-        background:   '#1E293B',
-        borderColor:  isInProgress ? '#8B5CF633' : '#334155',
-        padding:      '14px 16px',
+        borderColor:  isInProgress ? '#6C8CFF33' : 'var(--border-subtle)',
+        padding:      '16px 18px',
       }}
       onClick={() => setExpanded(v => !v)}
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpanded(v => !v) } }}
@@ -39,33 +38,33 @@ export default function TaskCard({ task }) {
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
 
-          {/* ID + 우선순위 */}
+          {/* ID + Priority */}
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-mono" style={{ color: '#475569' }}>
+            <span className="text-xs font-mono" style={{ color: 'var(--text-tertiary)' }}>
               #{task.id}
             </span>
             <span
               className="text-xs px-2 py-0.5 rounded-md font-semibold"
-              style={{ background: `${prio.color}22`, color: prio.color }}
+              style={{ background: `${prio.color}18`, color: prio.color }}
             >
-              {prio.icon} {prio.label}
+              {prio.label}
             </span>
           </div>
 
-          {/* 제목 */}
-          <div className="font-medium" style={{ color: '#E2E8F0', fontSize: '14px' }}>
+          {/* Title */}
+          <div className="font-medium" style={{ color: 'var(--text-primary)', fontSize: '14px' }}>
             {task.title}
           </div>
 
-          {/* 담당자 */}
+          {/* Assignee */}
           {task.agent_id && (
-            <div className="text-xs mt-1.5" style={{ color: meta?.color ?? '#94A3B8' }}>
+            <div className="text-xs mt-1.5 flex items-center gap-1.5" style={{ color: meta?.color ?? 'var(--text-secondary)' }}>
               {meta?.emoji} {task.agent_id}
             </div>
           )}
         </div>
 
-        {/* 상태 뱃지 — 더 눈에 띄게 */}
+        {/* Status badge */}
         <span
           className="text-xs px-3 py-1.5 rounded-lg font-semibold flex-shrink-0 flex items-center gap-1.5"
           style={{
@@ -86,20 +85,20 @@ export default function TaskCard({ task }) {
         </span>
       </div>
 
-      {/* 펼쳐지는 설명 */}
+      {/* Expanded description */}
       {expanded && task.description && (
         <div
-          className="mt-3 text-sm rounded-lg px-3 py-2.5"
-          style={{ background: '#0F172A', color: '#94A3B8', lineHeight: 1.6 }}
+          className="mt-3 text-sm rounded-xl px-4 py-3"
+          style={{ background: 'var(--bg-inset)', color: 'var(--text-secondary)', lineHeight: 1.7, border: '1px solid var(--border-subtle)' }}
         >
           {task.description}
         </div>
       )}
 
-      {/* 펼침 힌트 */}
+      {/* Expand hint */}
       {task.description && (
         <div className="flex justify-end mt-2">
-          <span className="text-xs" style={{ color: '#334155' }}>
+          <span className="text-xs font-medium" style={{ color: 'var(--text-tertiary)', opacity: 0.6 }}>
             {expanded ? '▲ 접기' : '▼ 설명 보기'}
           </span>
         </div>

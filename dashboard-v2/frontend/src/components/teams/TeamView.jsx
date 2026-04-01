@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
 const STATUS_DOT = {
-  active:  '#8B5CF6',
-  idle:    '#64748B',
-  working: '#10B981',
-  offline: '#334155',
+  active:  '#6C8CFF',
+  idle:    '#5E5E6E',
+  working: '#00D68F',
+  offline: '#2A2A32',
 }
 
 export default function TeamView({ teams, tasks }) {
@@ -25,19 +25,19 @@ export default function TeamView({ teams, tasks }) {
 
   return (
     <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6">
-      <h2 className="text-base font-bold" style={{ color: '#F1F5F9' }}>
+      <h2 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>
         OMC 팀 ({(teams || []).length})
       </h2>
 
-      {/* 활성 팀 */}
+      {/* Active teams */}
       {activeTeams.length > 0 && (
         <section>
           <div className="flex items-center gap-2 mb-3">
             <span
               className="w-2 h-2 rounded-full inline-block"
-              style={{ background: '#8B5CF6', animation: 'agentPulse 1.5s infinite' }}
+              style={{ background: 'var(--accent)', animation: 'agentPulse 1.5s infinite' }}
             />
-            <h3 className="text-sm font-semibold" style={{ color: '#A78BFA' }}>
+            <h3 className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>
               활성 팀 ({activeTeams.length})
             </h3>
           </div>
@@ -54,10 +54,10 @@ export default function TeamView({ teams, tasks }) {
         </section>
       )}
 
-      {/* 완료 팀 */}
+      {/* Completed teams */}
       {completedTeams.length > 0 && (
         <section>
-          <h3 className="text-sm font-semibold mb-3" style={{ color: '#64748B' }}>
+          <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-tertiary)' }}>
             완료된 팀 ({completedTeams.length})
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -74,11 +74,9 @@ export default function TeamView({ teams, tasks }) {
       )}
 
       {(!teams || teams.length === 0) && (
-        <div
-          className="rounded-xl border text-sm text-center py-16"
-          style={{ background: '#1E293B', borderColor: '#334155', color: '#475569' }}
-        >
-          활성 OMC 팀이 없습니다
+        <div className="card text-sm text-center py-16 flex flex-col items-center gap-3">
+          <span className="text-3xl opacity-30">👥</span>
+          <span style={{ color: 'var(--text-tertiary)' }}>활성 OMC 팀이 없습니다</span>
         </div>
       )}
     </div>
@@ -97,27 +95,24 @@ function TeamCard({ team, tasks, onClick }) {
       tabIndex={0}
       onClick={onClick}
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick() } }}
-      className="rounded-xl border p-4 cursor-pointer transition-all hover:border-purple-500/50"
-      style={{
-        background: '#1E293B',
-        borderColor: '#8B5CF633',
-      }}
+      className="card card-glow p-4 cursor-pointer transition-all"
+      style={{ borderColor: '#6C8CFF22' }}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #7C3AED, #8B5CF6)' }}
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold text-white"
+            style={{ background: 'linear-gradient(135deg, #6C8CFF, #A78BFA)' }}
           >
             T
           </div>
           <div>
-            <div className="text-sm font-semibold" style={{ color: '#E2E8F0' }}>
+            <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
               {team.name}
             </div>
             {team.description && (
-              <div className="text-xs truncate max-w-[200px]" style={{ color: '#64748B' }}>
+              <div className="text-xs truncate max-w-[200px]" style={{ color: 'var(--text-tertiary)' }}>
                 {team.description}
               </div>
             )}
@@ -127,7 +122,7 @@ function TeamCard({ team, tasks, onClick }) {
 
       {/* Members */}
       {team.members && team.members.length > 0 && (
-        <div className="flex flex-wrap gap-1 mb-3">
+        <div className="flex flex-wrap gap-1.5 mb-3">
           {team.members.slice(0, 6).map((member, i) => {
             const name = typeof member === 'string' ? member : member.name
             const status = typeof member === 'string' ? 'active' : (member.status || 'active')
@@ -137,9 +132,9 @@ function TeamCard({ team, tasks, onClick }) {
                 className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold"
                 title={name}
                 style={{
-                  background: STATUS_DOT[status] + '33',
+                  background: STATUS_DOT[status] + '22',
                   color: STATUS_DOT[status],
-                  border: `1.5px solid ${STATUS_DOT[status]}55`,
+                  border: `1.5px solid ${STATUS_DOT[status]}44`,
                 }}
               >
                 {name.charAt(0).toUpperCase()}
@@ -149,7 +144,7 @@ function TeamCard({ team, tasks, onClick }) {
           {team.members.length > 6 && (
             <span
               className="w-7 h-7 rounded-full flex items-center justify-center text-xs"
-              style={{ background: '#33415566', color: '#94A3B8' }}
+              style={{ background: 'var(--bg-inset)', color: 'var(--text-secondary)' }}
             >
               +{team.members.length - 6}
             </span>
@@ -159,14 +154,14 @@ function TeamCard({ team, tasks, onClick }) {
 
       {/* Progress */}
       <div>
-        <div className="flex items-center justify-between text-xs mb-1.5">
-          <span style={{ color: '#94A3B8' }}>태스크</span>
-          <span style={{ color: '#A78BFA' }}>{completed}/{total} ({progress}%)</span>
+        <div className="flex items-center justify-between text-xs mb-2">
+          <span style={{ color: 'var(--text-tertiary)' }}>태스크</span>
+          <span className="font-mono tabular-nums" style={{ color: 'var(--accent)' }}>{completed}/{total} ({progress}%)</span>
         </div>
-        <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: '#0F172A' }}>
+        <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-inset)' }}>
           <div
-            className="h-full rounded-full transition-all"
-            style={{ width: `${progress}%`, background: 'linear-gradient(90deg, #7C3AED, #8B5CF6)' }}
+            className="h-full rounded-full transition-all duration-500"
+            style={{ width: `${progress}%`, background: 'linear-gradient(90deg, #6C8CFF, #A78BFA)' }}
           />
         </div>
       </div>
@@ -187,23 +182,23 @@ function TeamDetail({ team, tasks, onBack }) {
         <button
           onClick={onBack}
           className="text-xs mb-3 px-3 py-1.5 rounded-lg transition-colors"
-          style={{ color: '#A78BFA', background: '#8B5CF611' }}
+          style={{ color: 'var(--accent)', background: 'var(--accent-muted)' }}
         >
           ← 팀 목록
         </button>
         <div className="flex items-center gap-3">
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #7C3AED, #8B5CF6)' }}
+            style={{ background: 'linear-gradient(135deg, #6C8CFF, #A78BFA)' }}
           >
             T
           </div>
           <div>
-            <h2 className="text-lg font-bold" style={{ color: '#F1F5F9' }}>
+            <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
               {team.name}
             </h2>
             {team.description && (
-              <p className="text-sm" style={{ color: '#64748B' }}>{team.description}</p>
+              <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>{team.description}</p>
             )}
           </div>
         </div>
@@ -212,7 +207,8 @@ function TeamDetail({ team, tasks, onBack }) {
       {/* Members */}
       {team.members && team.members.length > 0 && (
         <section>
-          <h3 className="text-sm font-bold mb-3" style={{ color: '#94A3B8', letterSpacing: '0.05em' }}>
+          <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-2" style={{ color: 'var(--text-tertiary)' }}>
+            <span className="w-1 h-3.5 rounded-full" style={{ background: 'var(--accent)' }} />
             팀원 ({team.members.length})
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -223,26 +219,25 @@ function TeamDetail({ team, tasks, onBack }) {
               return (
                 <div
                   key={i}
-                  className="rounded-xl border p-3 flex items-center gap-3"
+                  className="card flex items-center gap-3 p-3"
                   style={{
-                    background: '#1E293B',
-                    borderColor: isOnline ? '#8B5CF633' : '#334155',
+                    borderColor: isOnline ? '#6C8CFF22' : 'var(--border-subtle)',
                   }}
                 >
                   <span
                     className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0"
                     style={{
-                      background: STATUS_DOT[status] + '33',
+                      background: STATUS_DOT[status] + '22',
                       color: STATUS_DOT[status],
                     }}
                   >
                     {name.charAt(0).toUpperCase()}
                   </span>
                   <div className="min-w-0">
-                    <div className="text-sm font-medium truncate" style={{ color: '#E2E8F0' }}>
+                    <div className="text-sm font-medium truncate" style={{ color: 'var(--text-primary)' }}>
                       {name}
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1.5">
                       <span
                         className="w-1.5 h-1.5 rounded-full inline-block"
                         style={{ background: STATUS_DOT[status] }}
@@ -261,27 +256,26 @@ function TeamDetail({ team, tasks, onBack }) {
 
       {/* Tasks by status */}
       <section>
-        <h3 className="text-sm font-bold mb-3" style={{ color: '#94A3B8', letterSpacing: '0.05em' }}>
+        <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-2" style={{ color: 'var(--text-tertiary)' }}>
+          <span className="w-1 h-3.5 rounded-full" style={{ background: 'var(--purple)' }} />
           태스크 ({teamTasks.length})
         </h3>
 
         {teamTasks.length === 0 ? (
-          <div
-            className="rounded-xl border text-sm text-center py-8"
-            style={{ background: '#1E293B', borderColor: '#334155', color: '#475569' }}
-          >
-            태스크 없음
+          <div className="card text-sm text-center py-10 flex flex-col items-center gap-2">
+            <span className="text-xl opacity-30">📋</span>
+            <span style={{ color: 'var(--text-tertiary)' }}>태스크 없음</span>
           </div>
         ) : (
           <div className="space-y-4">
             {inProgress.length > 0 && (
-              <TaskGroup label="진행중" tasks={inProgress} dotColor="#8B5CF6" pulse />
+              <TaskGroup label="진행중" tasks={inProgress} dotColor="#6C8CFF" pulse />
             )}
             {pending.length > 0 && (
-              <TaskGroup label="대기중" tasks={pending} dotColor="#64748B" />
+              <TaskGroup label="대기중" tasks={pending} dotColor="#5E5E6E" />
             )}
             {completed.length > 0 && (
-              <TaskGroup label="완료" tasks={completed} dotColor="#10B981" />
+              <TaskGroup label="완료" tasks={completed} dotColor="#00D68F" />
             )}
           </div>
         )}
@@ -290,19 +284,19 @@ function TeamDetail({ team, tasks, onBack }) {
       {/* Session history */}
       {team.sessions && team.sessions.length > 0 && (
         <section>
-          <h3 className="text-sm font-bold mb-3" style={{ color: '#94A3B8', letterSpacing: '0.05em' }}>
+          <h3 className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-2" style={{ color: 'var(--text-tertiary)' }}>
+            <span className="w-1 h-3.5 rounded-full" style={{ background: 'var(--yellow)' }} />
             세션 히스토리
           </h3>
           <div className="space-y-2">
             {team.sessions.map((session, i) => (
               <div
                 key={i}
-                className="rounded-xl border px-4 py-3 text-sm"
-                style={{ background: '#1E293B', borderColor: '#334155', color: '#CBD5E1' }}
+                className="card px-4 py-3 text-sm"
               >
                 <div className="flex items-center justify-between">
-                  <span>{session.id || `Session ${i + 1}`}</span>
-                  <span className="text-xs" style={{ color: '#64748B' }}>
+                  <span style={{ color: 'var(--text-secondary)' }}>{session.id || `Session ${i + 1}`}</span>
+                  <span className="text-xs font-mono" style={{ color: 'var(--text-tertiary)' }}>
                     {session.created_at || session.timestamp || ''}
                   </span>
                 </div>
@@ -317,10 +311,10 @@ function TeamDetail({ team, tasks, onBack }) {
 
 function TaskGroup({ label, tasks, dotColor, pulse }) {
   const STATUS_STYLE = {
-    pending:     { bg: '#1E293B',   color: '#94A3B8', border: '#334155' },
-    in_progress: { bg: '#8B5CF611', color: '#A78BFA', border: '#8B5CF633' },
-    completed:   { bg: '#10B98111', color: '#34D399', border: '#10B98133' },
-    failed:      { bg: '#EF444411', color: '#F87171', border: '#EF444433' },
+    pending:     { bg: 'var(--bg-card)',   color: 'var(--text-secondary)', border: 'var(--border-subtle)' },
+    in_progress: { bg: '#6C8CFF0C', color: 'var(--accent)', border: '#6C8CFF22' },
+    completed:   { bg: '#00D68F0C', color: 'var(--green)', border: '#00D68F22' },
+    failed:      { bg: '#FF5C5C0C', color: 'var(--red)', border: '#FF5C5C22' },
   }
 
   return (
@@ -343,22 +337,22 @@ function TaskGroup({ label, tasks, dotColor, pulse }) {
           return (
             <div
               key={t.id}
-              className="rounded-xl border px-4 py-3"
-              style={{ background: st.bg, borderColor: st.border }}
+              className="card px-4 py-3"
+              style={{ borderColor: st.border }}
             >
               <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium" style={{ color: '#E2E8F0' }}>
+                  <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
                     {t.title}
                   </div>
                   {t.description && (
-                    <div className="text-xs mt-1 truncate" style={{ color: '#64748B' }}>
+                    <div className="text-xs mt-1 truncate" style={{ color: 'var(--text-tertiary)' }}>
                       {t.description}
                     </div>
                   )}
                 </div>
                 {t.agent_id && (
-                  <span className="text-xs flex-shrink-0" style={{ color: '#A78BFA' }}>
+                  <span className="text-xs flex-shrink-0 px-2 py-0.5 rounded-md" style={{ color: 'var(--accent)', background: 'var(--accent-muted)' }}>
                     {t.agent_id}
                   </span>
                 )}

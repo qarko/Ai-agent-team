@@ -1,8 +1,8 @@
 const STATUS_DOT = {
-  active:  '#8B5CF6',
-  idle:    '#64748B',
-  working: '#10B981',
-  offline: '#334155',
+  active:  '#6C8CFF',
+  idle:    '#5E5E6E',
+  working: '#00D68F',
+  offline: '#2A2A32',
 }
 
 export default function OmcTeamCard({ team, tasks }) {
@@ -13,36 +13,30 @@ export default function OmcTeamCard({ team, tasks }) {
   const progress = total > 0 ? Math.round((completed / total) * 100) : 0
 
   return (
-    <div
-      className="rounded-xl border p-4"
-      style={{
-        background: '#1E293B',
-        borderColor: '#8B5CF633',
-      }}
-    >
+    <div className="card card-glow p-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #7C3AED, #8B5CF6)' }}
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold text-white"
+            style={{ background: 'linear-gradient(135deg, #6C8CFF, #A78BFA)' }}
           >
             T
           </div>
           <div>
-            <div className="text-sm font-semibold" style={{ color: '#E2E8F0' }}>
+            <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
               {team.name}
             </div>
             {team.description && (
-              <div className="text-xs" style={{ color: '#64748B' }}>
+              <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
                 {team.description}
               </div>
             )}
           </div>
         </div>
         <span
-          className="text-xs px-2 py-1 rounded-full font-semibold"
-          style={{ background: '#8B5CF622', color: '#A78BFA' }}
+          className="text-xs px-2.5 py-1 rounded-lg font-semibold"
+          style={{ background: 'var(--accent-muted)', color: 'var(--accent)' }}
         >
           OMC
         </span>
@@ -51,7 +45,7 @@ export default function OmcTeamCard({ team, tasks }) {
       {/* Members */}
       {team.members && team.members.length > 0 && (
         <div className="mb-3">
-          <div className="text-xs font-medium mb-1.5" style={{ color: '#94A3B8' }}>
+          <div className="text-xs font-medium mb-2" style={{ color: 'var(--text-tertiary)' }}>
             팀원 ({team.members.length})
           </div>
           <div className="flex flex-wrap gap-1.5">
@@ -61,8 +55,8 @@ export default function OmcTeamCard({ team, tasks }) {
               return (
                 <span
                   key={i}
-                  className="text-xs px-2 py-1 rounded-md flex items-center gap-1.5"
-                  style={{ background: '#0F172A', color: '#CBD5E1' }}
+                  className="text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5"
+                  style={{ background: 'var(--bg-inset)', color: 'var(--text-secondary)', border: '1px solid var(--border-subtle)' }}
                 >
                   <span
                     className="w-1.5 h-1.5 rounded-full inline-block"
@@ -78,29 +72,33 @@ export default function OmcTeamCard({ team, tasks }) {
 
       {/* Task progress */}
       <div>
-        <div className="flex items-center justify-between text-xs mb-1.5">
-          <span style={{ color: '#94A3B8' }}>
-            태스크 진행률
-          </span>
-          <span style={{ color: '#A78BFA' }}>
+        <div className="flex items-center justify-between text-xs mb-2">
+          <span style={{ color: 'var(--text-tertiary)' }}>태스크 진행률</span>
+          <span className="font-mono tabular-nums" style={{ color: 'var(--accent)' }}>
             {completed}/{total} ({progress}%)
           </span>
         </div>
         <div
           className="w-full h-1.5 rounded-full overflow-hidden"
-          style={{ background: '#0F172A' }}
+          style={{ background: 'var(--bg-inset)' }}
         >
           <div
-            className="h-full rounded-full transition-all"
+            className="h-full rounded-full transition-all duration-500"
             style={{
               width: `${progress}%`,
-              background: 'linear-gradient(90deg, #7C3AED, #8B5CF6)',
+              background: 'linear-gradient(90deg, #6C8CFF, #A78BFA)',
             }}
           />
         </div>
-        <div className="flex gap-3 mt-1.5 text-xs" style={{ color: '#64748B' }}>
-          <span>진행중 {inProgress}</span>
-          <span>완료 {completed}</span>
+        <div className="flex gap-4 mt-2 text-xs" style={{ color: 'var(--text-tertiary)' }}>
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--accent)' }} />
+            진행중 {inProgress}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--green)' }} />
+            완료 {completed}
+          </span>
         </div>
       </div>
     </div>
